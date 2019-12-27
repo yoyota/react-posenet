@@ -1,5 +1,5 @@
 {
-  "name": "react-posenet",
+  "name": "@react-posenet/time",
   "version": "0.1.0-alpha.1",
   "main": "dist/index.js",
   "scripts": {
