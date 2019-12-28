@@ -1,7 +1,32 @@
 const path = require("path")
 
 module.exports = {
-  components: ["src/components/PoseNet.js"],
+  title: "PoseNet React",
+  pagePerSection: true,
+  sections: [
+    {
+      name: "Documentation",
+      content: "docs/Documentation.md",
+      components: () => ["./src/components/PoseNet.js"],
+      usageMode: "expand"
+    },
+    {
+      name: "Props examples",
+      sections: [
+        {
+          name: "input",
+          content: "docs/input.md",
+          exampleMode: "expand"
+        },
+        {
+          name: "onEstimate",
+          content: "docs/onEstimate.md",
+          exampleMode: "expand"
+        }
+      ],
+      sectionDepth: 0
+    }
+  ],
   webpackConfig: {
     module: {
       rules: [
@@ -13,7 +38,6 @@ module.exports = {
       ]
     }
   },
-  title: "PoseNet React",
   styleguideDir: "dist-docs",
   moduleAliases: {
     "react-posenet": path.resolve(__dirname, "src")
