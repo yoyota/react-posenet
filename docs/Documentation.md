@@ -4,6 +4,6 @@ React PoseNet is a handy wrapper component for [tfjs-models/posenet](https://git
 
 ## Installation
 
-```sh
+```bash
 npm install --save react-posenet
 ```

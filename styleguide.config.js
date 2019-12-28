@@ -7,8 +7,7 @@ module.exports = {
     {
       name: "Documentation",
       content: "docs/Documentation.md",
-      components: () => ["./src/components/PoseNet.js"],
-      usageMode: "expand"
+      components: () => ["./src/components/PoseNet.js"]
     },
     {
       name: "Props examples",

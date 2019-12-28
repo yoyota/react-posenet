@@ -19,11 +19,12 @@
   },
   "homepage": "https://github.com/yoyota/react-posenet#readme",
   "dependencies": {
-    "regenerator-runtime": "^0.13.3",
     "@tensorflow-models/posenet": "^2.2.1",
     "@tensorflow/tfjs": "^1.3.2",
     "@tensorflow/tfjs-core": "^1.4.0",
-    "await-to-js": "^2.1.1"
+    "await-to-js": "^2.1.1",
+    "prop-types": "^15.7.2",
+    "regenerator-runtime": "^0.13.3"
   },
   "peerDependencies": {
     "react": "^16.12.0",
