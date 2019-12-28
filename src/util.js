@@ -7,12 +7,11 @@ export function checkUserMediaError() {
   return null
 }
 
-export function getMediaStreamConstraints(facingMode, frameRate) {
+export function getMediaStreamConstraints(facingMode) {
   return {
     audio: false,
     video: {
-      facingMode,
-      frameRate
+      facingMode
     }
   }
 }

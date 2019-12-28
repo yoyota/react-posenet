@@ -52,7 +52,7 @@ export default function PoseNet({
     async function setupCamera() {
       const [err, stream] = await to(
         navigator.mediaDevices.getUserMedia(
-          getMediaStreamConstraints(facingMode, frameRate)
+          getMediaStreamConstraints(facingMode)
         )
       )
       if (err) {
@@ -67,7 +67,7 @@ export default function PoseNet({
       }
     }
     setupCamera()
-  }, [facingMode, frameRate, height, input, width])
+  }, [facingMode, height, input, width])
 
   useEffect(() => {
     if (!net || !image) return () => {}
