@@ -146,10 +146,13 @@ PoseNet.propTypes = {
    * If input is not specified react-posenet try to [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)<br/>
    * One of ImageData | HTMLImageElement | HTMLCanvasElement | HTMLVideoElement
    * @see [tfjs-posenet document](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatesinglepose)
+   * @see[example](https://react-posenet.yoyota.dev/#/Props%20examples?id=section-input)
    */
   input: PropTypes.element,
-  /** Gets called when estimate image. [poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) is parameter.<br/>
-   *  For example onEstimate([poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints))    */
+  /**
+   * callback will be called after estimation. returned output [poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) is a parameter
+   * @see [example](https://react-posenet.yoyota.dev/#/Props%20examples?id=section-onestimate)
+   */
   onEstimate: PropTypes.func,
   /**
    * If you want swtich between single / multi pose estimation.<br/>
