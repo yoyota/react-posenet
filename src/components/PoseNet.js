@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
+import PropTypes from "prop-types"
 import to from "await-to-js"
 import Loading from "./Loading"
 import useLoadPoseNet from "../hooks/useLoadPoseNet"
@@ -10,18 +11,18 @@ import {
 } from "../util"
 
 export default function PoseNet({
-  id = "",
-  className = "",
-  facingMode = "user",
-  frameRate = 20,
-  input = undefined,
-  onEstimate = () => {},
-  inferenceConfig = {},
-  modelConfig = {},
-  minPoseConfidence = 0.1,
-  minPartConfidence = 0.5,
-  width = 600,
-  height = 500
+  id,
+  className,
+  facingMode,
+  frameRate,
+  input,
+  onEstimate,
+  inferenceConfig,
+  modelConfig,
+  minPoseConfidence,
+  minPartConfidence,
+  width,
+  height
 }) {
   const videoRef = useRef()
   const canvasRef = useRef()
@@ -125,4 +126,73 @@ export default function PoseNet({
       </div>
     </>
   )
+}
+
+PoseNet.propTypes = {
+  /** canvas id */
+  id: PropTypes.string,
+  /** canvas className */
+  className: PropTypes.string,
+  /** @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode  */
+  facingMode: PropTypes.string,
+  /** First of all frameRate is parameter of [getUserMedia()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
+   *  see [MediaTrackConstraints.frameRate](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/frameRate)
+   *  <br/>
+   *  second frameRate affects how often estimation occurs. react-posenet internally <br/>
+   *  [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval)(() => { estimatePose() } , (1000 / framerate))
+   *  to estimate image continuously */
+  frameRate: PropTypes.number,
+  /**
+   * the input image to feed through the network. <br/> 
+   * If input is not specified react-posenet try to [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)<br/>
+   * @see [tfjs-posenet document](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatesinglepose)
+   */
+  input: PropTypes.element,
+  /**
+   * gets called after estimation. [poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) is a passed parameter
+   */
+  onEstimate: PropTypes.func,
+  /**
+   * If you want swtich between single / multi pose estimation.<br/>
+   * use decodingMethod [please check this code](https://github.com/tensorflow/tfjs-models/blob/master/posenet/demos/camera.js#L392) <br/>
+   * {decodingMethod: "single-person"} / {decodingMethod: "multi-person"}
+   * @see [tfjs-posenet documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatemultipleposes)
+   */
+  inferenceConfig: PropTypes.shape({
+    decodingMethod: PropTypes.string,
+    flipHorizontal: PropTypes.bool,
+    maxDetections: PropTypes.number,
+    scoreThreshold: PropTypes.number,
+    nmsRadius: PropTypes.number
+  }),
+  /** @see [tfjs-posenet documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet#config-params-in-posenetload) */
+  modelConfig: PropTypes.shape({
+    architecture: PropTypes.string,
+    outputStride: PropTypes.number,
+    inputResolution: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    quantBytes: PropTypes.number
+  }),
+  /** minimum confidence constraint for pose */
+  minPoseConfidence: PropTypes.number,
+  /** minimum confidence constraint for each [part](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) */
+  minPartConfidence: PropTypes.number,
+  /** canvas width */
+  width: PropTypes.number,
+  /** canvas height */
+  height: PropTypes.number
+}
+
+PoseNet.defaultProps = {
+  id: "",
+  className: "",
+  facingMode: "user",
+  frameRate: 20,
+  input: undefined,
+  onEstimate: () => {},
+  inferenceConfig: {},
+  modelConfig: {},
+  minPoseConfidence: 0.1,
+  minPartConfidence: 0.5,
+  width: 600,
+  height: 500
 }
