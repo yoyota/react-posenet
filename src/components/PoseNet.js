@@ -143,15 +143,13 @@ PoseNet.propTypes = {
    *  to estimate image continuously */
   frameRate: PropTypes.number,
   /**
+   * the input image to feed through the network. <br/> 
    * If input is not specified react-posenet try to [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)<br/>
-   * One of ImageData | HTMLImageElement | HTMLCanvasElement | HTMLVideoElement
    * @see [tfjs-posenet document](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatesinglepose)
-   * @see[example](https://react-posenet.yoyota.dev/#/Props%20examples?id=section-input)
    */
   input: PropTypes.element,
   /**
-   * callback will be called after estimation. returned output [poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) is a parameter
-   * @see [example](https://react-posenet.yoyota.dev/#/Props%20examples?id=section-onestimate)
+   * gets called after estimation. [poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) is a passed parameter
    */
   onEstimate: PropTypes.func,
   /**
