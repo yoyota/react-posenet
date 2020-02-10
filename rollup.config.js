@@ -19,11 +19,11 @@ export default [
     },
     external: ["react", "react-dom"],
     plugins: [
+      resolve(),
       babel({
         exclude: "node_modules/**"
       }),
       external(),
-      resolve(),
       terser()
     ]
   }

@@ -10,7 +10,7 @@ module.exports = {
     jest: true,
     browser: true
   },
-  plugins: ["jest", "promise", "prettier", "react", "react-hooks"],
+  plugins: ["jest", "markdown", "promise", "prettier", "react", "react-hooks"],
   rules: {
     "import/no-extraneous-dependencies": "off",
     "no-alert": "error",
@@ -33,5 +33,14 @@ module.exports = {
     "react/jsx-filename-extension": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-  }
+  },
+  overrides: [{
+     "files": ["**/*.md"],
+     "rules": {
+       "react/jsx-no-undef": "off",
+       "import/no-unresolved": "off",
+       "no-unused-expressions": "off",
+       "react/react-in-jsx-scope": "off"
+     }
+   }]
 }
