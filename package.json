@@ -1,16 +1,16 @@
 {
-  "name": "react-posenet",
+  "name": "react-forward-head-posture",
   "version": "0.1.1",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup --config",
-    "lint": "eslint --ext md --ext js --fix-dry-run src docs",
+    "lint": "eslint --ext md --ext js src",
     "start": "styleguidist server",
     "docs:build": "styleguidist build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoyota/react-posenet.git"
+    "url": "git+https://github.com/forward-head-posture/react-forward-head-posture.git"
   },
   "author": "yoyota",
   "license": "MIT",
@@ -20,10 +20,11 @@
     "posenet"
   ],
   "bugs": {
-    "url": "https://github.com/yoyota/react-posenet/issues"
+    "url": "https://github.com/forward-head-posture/react-forward-head-posture/issues"
   },
-  "homepage": "https://github.com/yoyota/react-posenet#readme",
+  "homepage": "https://github.com/forward-head-posture/react-forward-head-posture#readme",
   "dependencies": {
+    "@tensorflow/tfjs": "^1.6.0",
     "await-to-js": "^2.1.1",
     "regenerator-runtime": "^0.13.3"
   },

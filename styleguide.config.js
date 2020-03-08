@@ -1,31 +1,7 @@
 const path = require("path")
 
 module.exports = {
-  title: "PoseNet React",
-  pagePerSection: true,
-  sections: [
-    {
-      name: "Documentation",
-      content: "docs/Documentation.md",
-      components: () => ["./src/components/PoseNet.js"]
-    },
-    {
-      name: "Props examples",
-      sections: [
-        {
-          name: "input",
-          content: "docs/input.md",
-          exampleMode: "expand"
-        },
-        {
-          name: "onEstimate",
-          content: "docs/onEstimate.md",
-          exampleMode: "expand"
-        }
-      ],
-      sectionDepth: 0
-    }
-  ],
+  title: "Forward head posture react",
   webpackConfig: {
     module: {
       rules: [
@@ -38,7 +14,18 @@ module.exports = {
     }
   },
   styleguideDir: "dist-docs",
+  template: {
+    head: {
+      links: [
+        {
+          rel: "stylesheet",
+          href:
+            "https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        }
+      ]
+    }
+  },
   moduleAliases: {
-    "react-posenet": path.resolve(__dirname, "src")
+    "react-forward-head-posture": path.resolve(__dirname, "src")
   }
 }

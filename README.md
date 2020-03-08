@@ -8,7 +8,7 @@ https://react-posenet.yoyota.dev
 
 ## Example
 
-[pull up counter](https://github.com/yoyota/react-posenet-pull-up)  
+[pull up counter](https://github.com/forward-head-posture/react-forward-head-posture-pull-up)  
 <img src="https://i.imgur.com/xTP8Otx.gif" width=300 height=300 />
 
 ## Installation

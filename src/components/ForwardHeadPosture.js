@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import useInputImage from "../hooks/useInputImage"
+import useNet from "../hooks/useModel"
 
-export default function PoseNet({
+export default function ForwardHeadPosture({
   id,
   className,
   facingMode,
@@ -17,6 +18,7 @@ export default function PoseNet({
   const [errorMessage, setErrorMessage] = useState()
   const onEstimateRef = useRef()
   onEstimateRef.current = onEstimate
+  const model = useNet()
   const image = useInputImage({
     input,
     width,
@@ -27,17 +29,14 @@ export default function PoseNet({
   })
 
   useEffect(() => {
-    // if (!net || !image) return () => {}
-    // if ([net, image].some(elem => elem instanceof Error)) return () => {}
-    if (!image) return () => {}
+    if (!model || !image) return () => {}
+    if ([model, image].some(elem => elem instanceof Error)) return () => {}
 
     const ctx = canvasRef.current.getContext("2d")
     const intervalID = setInterval(async () => {
       try {
-        // const poses = await net.estimatePoses(image, inferenceConfigRef.current)
+        onEstimateRef.current(await model.estimate(image))
         ctx.drawImage(image, 0, 0, width, height)
-        // onEstimateRef.current(confidentPoses)
-        // confidentPoses.forEach(({ keypoints }) => drawKeypoints(ctx, keypoints))
       } catch (err) {
         clearInterval(intervalID)
         setErrorMessage(err.message)
@@ -45,7 +44,7 @@ export default function PoseNet({
     }, Math.round(1000 / frameRate))
 
     return () => clearInterval(intervalID)
-  }, [frameRate, height, image, width])
+  }, [frameRate, height, image, model, width])
   return (
     <>
       <font color="red">{errorMessage}</font>
@@ -69,7 +68,7 @@ export default function PoseNet({
   )
 }
 
-PoseNet.propTypes = {
+ForwardHeadPosture.propTypes = {
   /** canvas id */
   id: PropTypes.string,
   /** canvas className */
@@ -98,7 +97,7 @@ PoseNet.propTypes = {
   height: PropTypes.number
 }
 
-PoseNet.defaultProps = {
+ForwardHeadPosture.defaultProps = {
   id: "",
   className: "",
   facingMode: "user",
