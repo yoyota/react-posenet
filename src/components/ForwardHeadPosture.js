@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import PropTypes from "prop-types"
+import Loading from "./Loading"
 import useInputImage from "../hooks/useInputImage"
 import useNet from "../hooks/useModel"
 
@@ -47,6 +48,8 @@ export default function ForwardHeadPosture({
   }, [frameRate, height, image, model, width])
   return (
     <>
+      <Loading name="model" target={model} />
+      <Loading name="input" target={image} />
       <font color="red">{errorMessage}</font>
       <div>
         <video
