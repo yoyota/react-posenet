@@ -15,7 +15,7 @@ jobs:
           node-version: 12.x
       - run: npm ci
       - run: npm run docs:build
-      - run: echo "react-posenet.yoyota.dev" > ./dist-docs/CNAME
+      - run: echo "react-forward-head-posture.yoyota.dev" > ./dist-docs/CNAME
       - name: deploy
         uses: peaceiris/actions-gh-pages@v2
         env:
