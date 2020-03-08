@@ -1,7 +1,7 @@
 const path = require("path")
 
 module.exports = {
-  title: "Forward head posture react",
+  title: "forward head posture react",
   components: ["src/components/ForwardHeadPosture.js"],
   webpackConfig: {
     module: {

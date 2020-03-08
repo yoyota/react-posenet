@@ -1,6 +1,6 @@
 {
   "name": "react-forward-head-posture",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup --config",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/forward-head-posture/react-forward-head-posture#readme",
   "dependencies": {
     "@tensorflow/tfjs": "^1.6.0",
+    "acorn": "^7.1.1",
     "await-to-js": "^2.1.1",
     "regenerator-runtime": "^0.13.3"
   },
