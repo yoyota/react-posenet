@@ -1,8 +1,11 @@
-const path = require("path")
+const { version } = require("./package")
 
 module.exports = {
+  version,
   title: "forward head posture react",
+  require: ["regenerator-runtime/runtime"],
   components: ["src/components/ForwardHeadPosture.js"],
+  styleguideDir: "dist-docs",
   webpackConfig: {
     module: {
       rules: [
@@ -14,7 +17,6 @@ module.exports = {
       ]
     }
   },
-  styleguideDir: "dist-docs",
   template: {
     head: {
       links: [
@@ -25,8 +27,5 @@ module.exports = {
         }
       ]
     }
-  },
-  moduleAliases: {
-    "react-forward-head-posture": path.resolve(__dirname, "src")
   }
 }
