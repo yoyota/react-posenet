@@ -22,9 +22,9 @@ export default function(
             pixels = tf.div(pixels, 255)
             return m.predict(pixels)
           })
-          const score = (await scores.array())[0]
+          const scoresArray = await scores.array()
           scores.dispose()
-          return score
+          return scoresArray
         }
       })
     }
