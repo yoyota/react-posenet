@@ -8,6 +8,6 @@ const [score, setScore] = useState(0)
 
 ;<>
   <h1 className={score < 0 ? "text-danger" : ""}>score: {Math.round(score)}</h1>
-  <ForwardHeadPosture onEstimate={setScore} frameRate={10} />
+  <ForwardHeadPosture onEstimate={setScore} frameRate={30} />
 </>
 ```
