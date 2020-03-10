@@ -15,11 +15,16 @@ export default function(
       }
       setModel({
         async estimate(image) {
-          let pixels = tf.browser.fromPixels(image)
-          pixels = tf.image.resizeBilinear(pixels, [224, 224])
-          pixels = tf.expandDims(pixels, 0)
-          pixels = tf.div(pixels, 255)
-          return (await m.predict(pixels)).dataSync()[0]
+          const scores = tf.tidy(() => {
+            let pixels = tf.browser.fromPixels(image)
+            pixels = tf.image.resizeBilinear(pixels, [224, 224])
+            pixels = tf.expandDims(pixels, 0)
+            pixels = tf.div(pixels, 255)
+            return m.predict(pixels)
+          })
+          const score = (await scores.array())[0]
+          scores.dispose()
+          return score
         }
       })
     }
