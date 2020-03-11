@@ -24,7 +24,7 @@ export default function(
           })
           const scoresArray = await scores.array()
           scores.dispose()
-          return scoresArray
+          return scoresArray[0][0]
         }
       })
     }
