@@ -1,14 +1,9 @@
 import React, { useRef, useState, useEffect } from "react"
 import PropTypes from "prop-types"
-import to from "await-to-js"
 import Loading from "./Loading"
+import useInputImage from "../hooks/useInputImage"
 import useLoadPoseNet from "../hooks/useLoadPoseNet"
-import {
-  checkUserMediaError,
-  drawKeypoints,
-  getConfidentPoses,
-  getMediaStreamConstraints
-} from "../util"
+import { drawKeypoints, getConfidentPoses } from "../util"
 
 export default function PoseNet({
   id,
@@ -27,48 +22,19 @@ export default function PoseNet({
   const videoRef = useRef()
   const canvasRef = useRef()
   const net = useLoadPoseNet(modelConfig)
-  const [image, setImage] = useState()
   const [errorMessage, setErrorMessage] = useState()
-
   const onEstimateRef = useRef()
   const inferenceConfigRef = useRef()
   onEstimateRef.current = onEstimate
   inferenceConfigRef.current = inferenceConfig
-
-  useEffect(() => {
-    if (typeof input === "object") {
-      input.width = width
-      input.height = height
-    }
-    if (input) {
-      setImage(input)
-      return
-    }
-    if (!videoRef.current) return
-    const userMediaError = checkUserMediaError()
-    if (userMediaError) {
-      setImage(userMediaError)
-      return
-    }
-    async function setupCamera() {
-      const [err, stream] = await to(
-        navigator.mediaDevices.getUserMedia(
-          getMediaStreamConstraints(facingMode)
-        )
-      )
-      if (err) {
-        setImage(err)
-        return
-      }
-      const video = videoRef.current
-      video.srcObject = stream
-      video.onloadedmetadata = () => {
-        video.play()
-        setImage(video)
-      }
-    }
-    setupCamera()
-  }, [facingMode, height, input, width])
+  const image = useInputImage({
+    input,
+    width,
+    height,
+    videoRef,
+    facingMode,
+    frameRate
+  })
 
   useEffect(() => {
     if (!net || !image) return () => {}
@@ -144,7 +110,7 @@ PoseNet.propTypes = {
    *  to estimate image continuously */
   frameRate: PropTypes.number,
   /**
-   * the input image to feed through the network. <br/> 
+   * the input image to feed through the network. <br/>
    * If input is not specified react-posenet try to [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)<br/>
    * @see [tfjs-posenet document](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatesinglepose)
    */
@@ -156,8 +122,8 @@ PoseNet.propTypes = {
   /**
    * If you want swtich between single / multi pose estimation.<br/>
    * use decodingMethod [please check this code](https://github.com/tensorflow/tfjs-models/blob/master/posenet/demos/camera.js#L392) <br/>
-   * {decodingMethod: "single-person"} / {decodingMethod: "multi-person"}
-   * @see [tfjs-posenet documentation](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatemultipleposes)
+   * {decodingMethod: "single-person"} / {decodingMethod: "muli-person"}
+   * @see [tfjs-posenet documentation](https:/github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatemultipleposes)
    */
   inferenceConfig: PropTypes.shape({
     decodingMethod: PropTypes.string,
