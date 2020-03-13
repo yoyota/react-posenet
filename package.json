@@ -1,6 +1,6 @@
 {
   "name": "@react-posenet/time",
-  "version": "0.1.1",
+  "version": "0.1.2-rotate-90",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup --config",

@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import Loading from "./Loading"
 import useInputImage from "../hooks/useInputImage"
 import useLoadPoseNet from "../hooks/useLoadPoseNet"
-import { drawKeypoints, getConfidentPoses } from "../util"
+import { getConfidentPoses } from "../util"
 
 export default function PoseNet({
   id,
@@ -44,15 +44,21 @@ export default function PoseNet({
     const intervalID = setInterval(async () => {
       try {
         const date = new Date()
-        const poses = await net.estimatePoses(image, inferenceConfigRef.current)
+        ctx.save()
+        ctx.translate(width / 2, height / 2)
+        ctx.rotate(Math.PI / 2)
+        ctx.drawImage(image, -width / 2, -height / 2)
+        ctx.restore()
+        const poses = await net.estimatePoses(
+          canvasRef.current,
+          inferenceConfigRef.current
+        )
         const confidentPoses = getConfidentPoses(
           poses,
           minPoseConfidence,
           minPartConfidence
         )
-        ctx.drawImage(image, 0, 0, width, height)
         onEstimateRef.current(confidentPoses, date)
-        confidentPoses.forEach(({ keypoints }) => drawKeypoints(ctx, keypoints))
       } catch (err) {
         clearInterval(intervalID)
         setErrorMessage(err.message)
