@@ -6,7 +6,7 @@ import useLoadPoseNet from "../hooks/useLoadPoseNet"
 import { drawKeypoints, getConfidentPoses } from "../util"
 
 export default function PoseNet({
-  id,
+  style,
   className,
   facingMode,
   frameRate,
@@ -74,29 +74,28 @@ export default function PoseNet({
       <Loading name="model" target={net} />
       <Loading name="input" target={image} />
       <font color="red">{errorMessage}</font>
-      <div>
-        <video
-          playsInline
-          ref={videoRef}
-          style={{ width: "0", height: "0" }}
-          width={width}
-          height={height}
-        />
-        <canvas
-          ref={canvasRef}
-          id={id}
-          className={className}
-          width={width}
-          height={height}
-        />
-      </div>
+      <video
+        playsInline
+        ref={videoRef}
+        style={{ width: "0", height: "0" }}
+        width={width}
+        height={height}
+      />
+      <canvas
+        style={style}
+        className={className}
+        ref={canvasRef}
+        width={width}
+        height={height}
+      />
     </>
   )
 }
 
 PoseNet.propTypes = {
-  /** canvas id */
-  id: PropTypes.string,
+  /** canvas style */
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
   /** canvas className */
   className: PropTypes.string,
   /** @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode  */
@@ -149,7 +148,7 @@ PoseNet.propTypes = {
 }
 
 PoseNet.defaultProps = {
-  id: "",
+  style: {},
   className: "",
   facingMode: "user",
   frameRate: 20,
