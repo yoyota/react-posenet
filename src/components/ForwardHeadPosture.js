@@ -5,7 +5,7 @@ import useInputImage from "../hooks/useInputImage"
 import useNet from "../hooks/useModel"
 
 export default function ForwardHeadPosture({
-  id,
+  style,
   className,
   facingMode,
   frameRate,
@@ -51,29 +51,28 @@ export default function ForwardHeadPosture({
       <Loading name="model" target={model} />
       <Loading name="input" target={image} />
       <font color="red">{errorMessage}</font>
-      <div>
-        <video
-          playsInline
-          ref={videoRef}
-          style={{ width: "0", height: "0" }}
-          width={width}
-          height={height}
-        />
-        <canvas
-          ref={canvasRef}
-          id={id}
-          className={className}
-          width={width}
-          height={height}
-        />
-      </div>
+      <video
+        playsInline
+        ref={videoRef}
+        style={{ width: "0", height: "0" }}
+        width={width}
+        height={height}
+      />
+      <canvas
+        ref={canvasRef}
+        style={style}
+        className={className}
+        width={width}
+        height={height}
+      />
     </>
   )
 }
 
 ForwardHeadPosture.propTypes = {
-  /** canvas id */
-  id: PropTypes.string,
+  /** canvas style */
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
   /** canvas className */
   className: PropTypes.string,
   /** @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode  */
@@ -101,7 +100,7 @@ ForwardHeadPosture.propTypes = {
 }
 
 ForwardHeadPosture.defaultProps = {
-  id: "",
+  style: {},
   className: "",
   facingMode: "user",
   frameRate: 20,
