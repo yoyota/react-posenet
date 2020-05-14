@@ -18,13 +18,15 @@ export default function useInputImage({
     }
     if (input) {
       setImage(input)
-      return
+      return () => {}
     }
-    if (!videoRef.current) return
+    if (!videoRef.current) {
+      return () => {}
+    }
     const userMediaError = checkUserMediaError()
     if (userMediaError) {
       setImage(userMediaError)
-      return
+      return () => {}
     }
     async function setupCamera() {
       const [err, stream] = await to(
@@ -44,6 +46,11 @@ export default function useInputImage({
       }
     }
     setupCamera()
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const stream = videoRef.current.srcObject
+      stream.getTracks().forEach(track => track.stop())
+    }
   }, [facingMode, frameRate, height, input, videoRef, width])
   return image
 }
