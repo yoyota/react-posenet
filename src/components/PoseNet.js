@@ -42,9 +42,10 @@ export default function PoseNet({
     const ctx = canvasRef.current.getContext("2d")
 
     let intervalId
+    let requestId
     function cleanUp() {
       clearInterval(intervalId)
-      cancelAnimationFrame(intervalId)
+      cancelAnimationFrame(requestId)
     }
 
     async function estimate() {
@@ -71,9 +72,9 @@ export default function PoseNet({
 
     function animate() {
       estimate()
-      intervalId = requestAnimationFrame(animate)
+      requestId = requestAnimationFrame(animate)
     }
-    intervalId = requestAnimationFrame(animate)
+    requestId = requestAnimationFrame(animate)
 
     return cleanUp
   }, [
