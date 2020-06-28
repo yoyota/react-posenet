@@ -39,9 +39,16 @@ export default function PoseNet({
   useEffect(() => {
     if (!net || !image) return () => {}
     if ([net, image].some(elem => elem instanceof Error)) return () => {}
-
     const ctx = canvasRef.current.getContext("2d")
-    const intervalID = setInterval(async () => {
+
+    let intervalId
+    let requestId
+    function cleanUp() {
+      clearInterval(intervalId)
+      cancelAnimationFrame(requestId)
+    }
+
+    async function estimate() {
       try {
         const poses = await net.estimatePoses(image, inferenceConfigRef.current)
         const confidentPoses = getConfidentPoses(
@@ -53,20 +60,31 @@ export default function PoseNet({
         onEstimateRef.current(confidentPoses)
         confidentPoses.forEach(({ keypoints }) => drawKeypoints(ctx, keypoints))
       } catch (err) {
-        clearInterval(intervalID)
+        cleanUp()
         setErrorMessage(err.message)
       }
-    }, Math.round(1000 / frameRate))
+    }
 
-    return () => clearInterval(intervalID)
+    if (frameRate) {
+      intervalId = setInterval(estimate, Math.round(1000 / frameRate))
+      return cleanUp
+    }
+
+    function animate() {
+      estimate()
+      requestId = requestAnimationFrame(animate)
+    }
+    requestId = requestAnimationFrame(animate)
+
+    return cleanUp
   }, [
-    frameRate,
-    height,
-    image,
-    minPartConfidence,
-    minPoseConfidence,
     net,
-    width
+    image,
+    width,
+    height,
+    frameRate,
+    minPartConfidence,
+    minPoseConfidence
   ])
 
   return (
@@ -103,9 +121,10 @@ PoseNet.propTypes = {
   /** First of all frameRate is parameter of [getUserMedia()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
    *  see [MediaTrackConstraints.frameRate](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/frameRate)
    *  <br/>
-   *  second frameRate affects how often estimation occurs. react-posenet internally <br/>
+   *  Second frameRate affects how often estimation occurs. react-posenet internally do <br/>
    *  [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval)(() => { estimatePose() } , (1000 / framerate))
-   *  to estimate image continuously */
+   *  to estimate image continuously. <br/>
+   *  If frameRate is undefined react-posnet use [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) */
   frameRate: PropTypes.number,
   /**
    * the input image to feed through the network. <br/>
@@ -151,7 +170,7 @@ PoseNet.defaultProps = {
   style: {},
   className: "",
   facingMode: "user",
-  frameRate: 20,
+  frameRate: undefined,
   input: undefined,
   onEstimate: () => {},
   inferenceConfig: {},
