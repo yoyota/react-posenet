@@ -19,7 +19,6 @@ export default function PoseNet({
   width,
   height
 }) {
-  const videoRef = useRef()
   const canvasRef = useRef()
   const net = useLoadPoseNet(modelConfig)
   const [errorMessage, setErrorMessage] = useState()
@@ -31,7 +30,6 @@ export default function PoseNet({
     input,
     width,
     height,
-    videoRef,
     facingMode,
     frameRate
   })
@@ -92,13 +90,6 @@ export default function PoseNet({
       <Loading name="model" target={net} />
       <Loading name="input" target={image} />
       <font color="red">{errorMessage}</font>
-      <video
-        playsInline
-        ref={videoRef}
-        style={{ width: "0", height: "0" }}
-        width={width}
-        height={height}
-      />
       <canvas
         style={style}
         className={className}
