@@ -1,12 +1,3 @@
-export function checkUserMediaError() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    return new Error(
-      "Browser API navigator.mediaDevices.getUserMedia not available"
-    )
-  }
-  return null
-}
-
 export function getMediaStreamConstraints(facingMode, frameRate) {
   return {
     audio: false,

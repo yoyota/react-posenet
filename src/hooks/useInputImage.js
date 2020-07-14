@@ -1,49 +1,38 @@
-import to from "await-to-js"
 import { useState, useEffect } from "react"
-import { checkUserMediaError, getMediaStreamConstraints } from "../util"
+import { useUserMediaVideo } from "use-user-media"
+import { getMediaStreamConstraints } from "../util"
 
 export default function useInputImage({
   input,
   width,
   height,
-  videoRef,
   facingMode,
   frameRate
 }) {
   const [image, setImage] = useState()
+  const userMediaDisabled = typeof input === "object"
+  const [userMediaError, video] = useUserMediaVideo(
+    getMediaStreamConstraints(facingMode, frameRate),
+    userMediaDisabled
+  )
+
   useEffect(() => {
-    if (typeof input === "object") {
+    if (userMediaDisabled) {
       input.width = width
       input.height = height
-    }
-    if (input) {
       setImage(input)
       return
     }
-    if (!videoRef.current) return
-    const userMediaError = checkUserMediaError()
     if (userMediaError) {
       setImage(userMediaError)
       return
     }
-    async function setupCamera() {
-      const [err, stream] = await to(
-        navigator.mediaDevices.getUserMedia(
-          getMediaStreamConstraints(facingMode, frameRate)
-        )
-      )
-      if (err) {
-        setImage(err)
-        return
-      }
-      const video = videoRef.current
-      video.srcObject = stream
-      video.onloadedmetadata = () => {
-        video.play()
-        setImage(video)
-      }
+    if (video) {
+      video.width = width
+      video.height = height
+      video.playsInline = true
+      setImage(video)
     }
-    setupCamera()
-  }, [facingMode, frameRate, height, input, videoRef, width])
+  }, [userMediaDisabled, userMediaError, height, input, video, width])
   return image
 }
