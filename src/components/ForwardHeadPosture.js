@@ -14,7 +14,6 @@ export default function ForwardHeadPosture({
   width,
   height
 }) {
-  const videoRef = useRef()
   const canvasRef = useRef()
   const [errorMessage, setErrorMessage] = useState()
   const onEstimateRef = useRef()
@@ -24,7 +23,6 @@ export default function ForwardHeadPosture({
     input,
     width,
     height,
-    videoRef,
     facingMode,
     frameRate
   })
@@ -36,8 +34,8 @@ export default function ForwardHeadPosture({
     const ctx = canvasRef.current.getContext("2d")
     const intervalID = setInterval(async () => {
       try {
-        onEstimateRef.current(await model.estimate(image))
         ctx.drawImage(image, 0, 0, width, height)
+        onEstimateRef.current(await model.estimate(image))
       } catch (err) {
         clearInterval(intervalID)
         setErrorMessage(err.message)
@@ -51,13 +49,6 @@ export default function ForwardHeadPosture({
       <Loading name="model" target={model} />
       <Loading name="input" target={image} />
       <font color="red">{errorMessage}</font>
-      <video
-        playsInline
-        ref={videoRef}
-        style={{ width: "0", height: "0" }}
-        width={width}
-        height={height}
-      />
       <canvas
         ref={canvasRef}
         style={style}
@@ -80,18 +71,18 @@ ForwardHeadPosture.propTypes = {
   /** First of all frameRate is parameter of [getUserMedia()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
    *  see [MediaTrackConstraints.frameRate](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/frameRate)
    *  <br/>
-   *  second frameRate affects how often estimation occurs. react-posenet internally <br/>
+   *  Second frameRate affects how often estimation occurs. react-forward-head-posture internally do <br/>
    *  [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval)(() => { estimatePose() } , (1000 / framerate))
-   *  to estimate image continuously */
+   *  to estimate image continuously. <br/>
+   *  If frameRate is undefined react-forward-head-posture use [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) */
   frameRate: PropTypes.number,
   /**
    * the input image to feed through the network. <br/>
-   * If input is not specified react-posenet try to [getUserMedia](https:/developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)<br/>
-   * @see [tfjs-posenet document](https://github.com/tensorflow/tfjs-models/tree/master/posenet#params-in-estimatesinglepose)
+   * If input is not specified react-forward-head-posture try to [getUserMedia](https:/developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)<br/>
    */
   input: PropTypes.element,
   /**
-   * gets called after estimation. [poses](https://github.com/tensorflow/tfjs-models/tree/master/posenet#keypoints) is a passed parameter
+   * gets called after estimation. score is a passed parameter
    */
   onEstimate: PropTypes.func,
   width: PropTypes.number,

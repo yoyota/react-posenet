@@ -1,6 +1,6 @@
 {
   "name": "react-forward-head-posture",
-  "version": "0.1.4",
+  "version": "0.1.4-alpha.1",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup --config",
@@ -16,8 +16,7 @@
   "license": "MIT",
   "keywords": [
     "react",
-    "tfjs",
-    "posenet"
+    "tfjs"
   ],
   "bugs": {
     "url": "https://github.com/forward-head-posture/react-forward-head-posture/issues"
@@ -27,7 +26,8 @@
     "@tensorflow/tfjs": "^1.6.0",
     "acorn": "^7.1.1",
     "await-to-js": "^2.1.1",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "use-user-media": "0.1.0-alpha.4"
   },
   "peerDependencies": {
     "react": "^16.12.0",
