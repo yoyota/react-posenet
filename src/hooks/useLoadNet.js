@@ -5,15 +5,15 @@ import to from "await-to-js"
 export default function(
   modelURL = "https://yoyota.gitlab.io/forward-head-posture-model/model.json"
 ) {
-  const [model, setModel] = useState(null)
+  const [net, setNet] = useState(null)
   useEffect(() => {
     async function loadNet() {
       const [err, m] = await to(tf.loadGraphModel(modelURL))
       if (err) {
-        setModel(err)
+        setNet(err)
         return
       }
-      setModel({
+      setNet({
         async estimate(image) {
           const scores = tf.tidy(() => {
             let pixels = tf.browser.fromPixels(image)
@@ -30,5 +30,5 @@ export default function(
     }
     loadNet()
   }, [modelURL])
-  return model
+  return net
 }

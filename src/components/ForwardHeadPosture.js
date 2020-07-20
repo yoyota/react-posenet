@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import Loading from "./Loading"
 import useInputImage from "../hooks/useInputImage"
-import useNet from "../hooks/useModel"
+import useNet from "../hooks/useLoadNet"
 
 export default function ForwardHeadPosture({
   style,
@@ -18,7 +18,7 @@ export default function ForwardHeadPosture({
   const [errorMessage, setErrorMessage] = useState()
   const onEstimateRef = useRef()
   onEstimateRef.current = onEstimate
-  const model = useNet()
+  const net = useNet()
   const image = useInputImage({
     input,
     width,
@@ -28,14 +28,14 @@ export default function ForwardHeadPosture({
   })
 
   useEffect(() => {
-    if (!model || !image) return () => {}
-    if ([model, image].some(elem => elem instanceof Error)) return () => {}
+    if (!net || !image) return () => {}
+    if ([net, image].some(elem => elem instanceof Error)) return () => {}
 
     const ctx = canvasRef.current.getContext("2d")
     const intervalID = setInterval(async () => {
       try {
         ctx.drawImage(image, 0, 0, width, height)
-        onEstimateRef.current(await model.estimate(image))
+        onEstimateRef.current(await net.estimate(image))
       } catch (err) {
         clearInterval(intervalID)
         setErrorMessage(err.message)
@@ -43,10 +43,10 @@ export default function ForwardHeadPosture({
     }, Math.round(1000 / frameRate))
 
     return () => clearInterval(intervalID)
-  }, [frameRate, height, image, model, width])
+  }, [frameRate, height, image, net, width])
   return (
     <>
-      <Loading name="model" target={model} />
+      <Loading name="model" target={net} />
       <Loading name="input" target={image} />
       <font color="red">{errorMessage}</font>
       <canvas
