@@ -6,7 +6,7 @@
   "module": "dist/index.esm.js",
   "scripts": {
     "build": "rollup --config",
-    "lint": "eslint --ext md --ext js src docs",
+    "lint": "eslint --ext md --ext js src",
     "start": "styleguidist server",
     "docs:build": "styleguidist build"
   },
