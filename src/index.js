@@ -1,7 +1,5 @@
 import "regenerator-runtime/runtime"
-import PoseNet from "./components/PoseNet"
-import useInputImage from "./hooks/useInputImage"
-import useLoadPoseNet from "./hooks/useLoadPoseNet"
 
-export default PoseNet
-export { useInputImage, useLoadPoseNet }
+export { default } from "./components/PoseNet"
+export { default as useInputImage } from "./hooks/useInputImage"
+export { default as useLoadPoseNet } from "./hooks/useLoadPoseNet"
