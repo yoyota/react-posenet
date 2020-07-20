@@ -10,6 +10,7 @@ export default [
   {
     input,
     output: {
+      exports: "named",
       name: packageJSON.name,
       file: packageJSON.main,
       format: "umd",
