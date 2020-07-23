@@ -30,7 +30,6 @@ export default function useInputImage({
     if (video) {
       video.width = width
       video.height = height
-      video.playsInline = true
       setImage(video)
     }
   }, [userMediaDisabled, userMediaError, height, input, video, width])
