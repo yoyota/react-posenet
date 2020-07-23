@@ -11,10 +11,10 @@ export default function useInputImage({
 }) {
   const [image, setImage] = useState()
   const userMediaDisabled = typeof input === "object"
-  const [userMediaError, video] = useUserMediaVideo(
-    getMediaStreamConstraints(facingMode, frameRate),
-    userMediaDisabled
-  )
+  const constraints = userMediaDisabled
+    ? { video: false, audio: false }
+    : getMediaStreamConstraints(facingMode, frameRate)
+  const [userMediaError, video] = useUserMediaVideo(constraints)
 
   useEffect(() => {
     if (userMediaDisabled) {
