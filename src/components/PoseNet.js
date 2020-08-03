@@ -19,7 +19,7 @@ export default function PoseNet({
   width,
   height
 }) {
-  const canvasRef = useRef()
+  const [ctx, setCtx] = useState()
   const net = useLoadPoseNet(modelConfig)
   const [errorMessage, setErrorMessage] = useState()
   const onEstimateRef = useRef()
@@ -35,9 +35,8 @@ export default function PoseNet({
   })
 
   useEffect(() => {
-    if (!net || !image) return () => {}
+    if (!net || !image || !ctx) return () => {}
     if ([net, image].some(elem => elem instanceof Error)) return () => {}
-    const ctx = canvasRef.current.getContext("2d")
 
     let intervalId
     let requestId
@@ -76,6 +75,7 @@ export default function PoseNet({
 
     return cleanUp
   }, [
+    ctx,
     net,
     image,
     width,
@@ -93,7 +93,11 @@ export default function PoseNet({
       <canvas
         style={style}
         className={className}
-        ref={canvasRef}
+        ref={c => {
+          if (c) {
+            setCtx(c.getContext("2d"))
+          }
+        }}
         width={width}
         height={height}
       />
