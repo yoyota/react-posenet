@@ -1,4 +1,3 @@
-
 export function getMediaStreamConstraints(facingMode, frameRate) {
   return {
     audio: false,
