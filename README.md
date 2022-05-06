@@ -4,7 +4,7 @@ React PoseNet is a handy wrapper component for [tfjs-models/posenet](https://git
 
 ## Documentation
 
-https://react-posenet.yoyota.dev
+https://yoyota.github.io/react-posenet/
 
 ## Example
 
